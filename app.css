@@ -3,6 +3,10 @@ body {
     color: #fff;
    }
    
+#title {
+    text-align: center;
+}
+
 #time {
     font-size: 15rem;
     font-weight: bold;

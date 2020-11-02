@@ -43,6 +43,7 @@ class Pomodoros {
         let minuteShow = (this.currentMinute < 10) ? `0${this.currentMinute}` : this.currentMinute 
         let secondShow = (this.currentSecond < 10) ? `0${this.currentSecond}` : this.currentSecond 
         this.display.innerText = `${minuteShow}:${secondShow}`
+        document.title = `${minuteShow}:${secondShow}`
     }
 
     runTimer() {
