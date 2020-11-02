@@ -48,12 +48,13 @@ class Pomodoros {
 
     runTimer() {
         if (this.currentMinute === 0 && this.currentSecond === 1) {
+            this.currentMinute = this.pomodorosMinute
+            this.currentSecond = this.pomodorosSecond
+            this.save()
             this.toogleRunning()
             if (this.soundOn) {
                 this.alarm.play()
             }
-            this.currentMinute = this.pomodorosMinute
-            this.currentSecond = this.pomodorosSecond
         } else if (this.currentSecond === 0) {
             this.currentSecond = 59
             this.currentMinute -= 1 
@@ -94,6 +95,19 @@ class Pomodoros {
         this.currentSecond = this.pomodorosSecond
         this.showTime()
     }
+
+    save() {
+        let pomodoro = localStorage.getItem('pomodoro')
+        if (pomodoro === undefined || pomodoro === null) {
+            pomodoro = []
+        } else {
+            pomodoro = JSON.parse(pomodoro)
+        }
+        let date = new Date();
+        let dateFormat= date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
+        pomodoro.push(dateFormat)
+        localStorage.setItem('pomodoro', JSON.stringify(pomodoro))
+    }
 }
 
-new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', 25, 0)
+new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', 0, 2)
