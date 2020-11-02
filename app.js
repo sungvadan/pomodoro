@@ -110,4 +110,4 @@ class Pomodoros {
     }
 }
 
-new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', 0, 2)
+new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', 25, 0)
