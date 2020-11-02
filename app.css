@@ -1,0 +1,36 @@
+body {
+    background-color: #1abc9c;
+    color: #fff;
+   }
+   
+#time {
+    font-size: 15rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.btn {
+    margin-top: 3px;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 3rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    color: #343a40;
+    background-color: transparent;
+    background-image: none;
+    border-color: #343a40;
+}
+
+#div-btn {
+    text-align: center;
+}
+
+#volume {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
