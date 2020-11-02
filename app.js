@@ -26,12 +26,14 @@ class Pomodoros {
         })
         
         document.addEventListener('keydown', e => {
-            e.preventDefault()
-            e.stopPropagation()
             if (e.code === 'Enter' || e.code === 'Space') {
                 this.toogleRunning()
+                e.preventDefault()
+                e.stopPropagation()
             } else if (e.code === 'Escape') {
                 this.reset()
+                e.preventDefault()
+                e.stopPropagation()
             }
         })
         this.showTime()
