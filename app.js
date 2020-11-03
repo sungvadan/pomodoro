@@ -1,17 +1,60 @@
+class PTime {
+    constructor(initMinute, title) {
+        this.title = title
+        this.initMinute = initMinute
+        this.currentMinute = initMinute
+        this.currentSecond = 0
+    }
+
+    reset() {
+        this.currentMinute = this.initMinute
+        this.currentSecond = 0
+    }
+
+    decrement() {
+        if (this.currentMinute === 0 && this.currentSecond === 0) {
+            return;
+        }
+
+        if (this.currentSecond === 0) {
+            this.currentSecond = 59
+            this.currentMinute -= 1 
+        } else {
+            this.currentSecond -= 1
+        }
+    }
+
+    getTime() {
+        return {
+            minute: this.currentMinute,
+            second: this.currentSecond
+        }
+    }
+
+    getTitle() {
+        return this.title
+    }
+}
+
+
+
 class Pomodoros {
-    constructor(selectorDisplay, selectorStart, selectorReset, selectorAlarm, selectorVolume, pomodorosMinute, pomodorosSecond) {
+    constructor(selectorDisplay, selectorStart, selectorReset, selectorAlarm, selectorVolume, selectorTitle, selectorNext, cycles) {
+        this.title = document.querySelector(selectorTitle)
         this.display = document.querySelector(selectorDisplay)
         this.btnStart = document.querySelector(selectorStart)
         this.btnReset = document.querySelector(selectorReset)
         this.btnVolume = document.querySelector(selectorVolume)
         this.alarm = document.querySelector(selectorAlarm)
-        this.pomodorosMinute = pomodorosMinute
-        this.pomodorosSecond = pomodorosSecond
-        this.currentMinute = this.pomodorosMinute
-        this.currentSecond = this.pomodorosSecond
+        this.next = document.querySelector(selectorNext)
         this.isRunning = false
         this.timer = null
+        this.current = null
         this.soundOn = true
+        this.cycles = cycles
+        this.positionInCycles = -1
+
+        this.changeCycle()
 
         this.btnStart.addEventListener('click', e => {
             this.toogleRunning()
@@ -19,6 +62,10 @@ class Pomodoros {
         
         this.btnReset.addEventListener('click', e => {
             this.reset()
+        })
+
+        this.next.addEventListener('click', e => {
+            this.changeCycle()
         })
 
         this.btnVolume.addEventListener('click', e => {
@@ -36,32 +83,28 @@ class Pomodoros {
                 e.stopPropagation()
             }
         })
-        this.showTime()
+        this.show()
     }
 
-    showTime() {
-        let minuteShow = (this.currentMinute < 10) ? `0${this.currentMinute}` : this.currentMinute 
-        let secondShow = (this.currentSecond < 10) ? `0${this.currentSecond}` : this.currentSecond 
+    show() {
+        let time = this.current.getTime()
+        let minuteShow = (time.minute < 10) ? `0${time.minute}` : time.minute 
+        let secondShow = (time.second < 10) ? `0${time.second}` : time.second 
         this.display.innerText = `${minuteShow}:${secondShow}`
         document.title = `${minuteShow}:${secondShow}`
     }
 
     runTimer() {
-        if (this.currentMinute === 0 && this.currentSecond === 1) {
-            this.currentMinute = this.pomodorosMinute
-            this.currentSecond = this.pomodorosSecond
+        this.current.decrement()
+        let time = this.current.getTime()
+
+        if (time.minute === 0 && time.second === 0) {
             this.save()
             this.toogleRunning()
-            if (this.soundOn) {
-                this.alarm.play()
-            }
-        } else if (this.currentSecond === 0) {
-            this.currentSecond = 59
-            this.currentMinute -= 1 
-        } else {
-            this.currentSecond -= 1
+            this.playAlarm()
+            this.changeCycle()
         }
-        this.showTime()
+        this.show()
     }
 
     toogleRunning() {
@@ -73,8 +116,7 @@ class Pomodoros {
             this.btnStart.innerText = 'Pause'
         } else {
             clearInterval(this.timer)
-            let btnLabel = (this.currentMinute === this.pomodorosMinute && this.currentSecond === this.pomodorosSecond)? 'Start' : 'Continue'
-            this.btnStart.innerText = btnLabel
+            this.btnStart.innerText = 'Continue'
         }
     }
     
@@ -87,27 +129,58 @@ class Pomodoros {
         }
     }
 
+    playAlarm() {
+        if (this.soundOn) {
+            this.alarm.play()
+        }
+    }
+
+    changeCycle() {
+        this.positionInCycles = this.positionInCycles + 1
+        if (this.positionInCycles >= this.cycles.length) {
+            this.positionInCycles = 0
+        }
+        if (this.current !== null) {
+            this.current.reset()
+        }
+        this.current = this.cycles[this.positionInCycles]
+
+        let state = Math.floor(this.positionInCycles / 2) + 1
+        this.title.innerText = `${this.current.getTitle()} (#${state})`
+        document.body.className = this.current.getTitle()
+        this.btnStart.innerText = 'Start'
+        this.show()
+    }
+
     reset() {
         this.isRunning = false
-        this.btnStart.innerText = 'Start'
         clearInterval(this.timer)
-        this.currentMinute = this.pomodorosMinute
-        this.currentSecond = this.pomodorosSecond
-        this.showTime()
+        this.current.reset()
+        this.show()
     }
 
     save() {
         let pomodoro = localStorage.getItem('pomodoro')
         if (pomodoro === undefined || pomodoro === null) {
-            pomodoro = []
+            pomodoro = {}
         } else {
             pomodoro = JSON.parse(pomodoro)
         }
         let date = new Date();
         let dateFormat= date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
-        pomodoro.push(dateFormat)
+        pomodoro[dateFormat] = this.current.getTitle()
         localStorage.setItem('pomodoro', JSON.stringify(pomodoro))
     }
 }
 
-new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', 25, 0)
+let cycles = [
+    new PTime(25, 'Concentrate'),
+    new PTime(5, 'Short Pause'),
+    new PTime(25, 'Concentrate'),
+    new PTime(5, 'Short Pause'),
+    new PTime(25, 'Concentrate'),
+    new PTime(5, 'Short Pause'),
+    new PTime(25, 'Concentrate'),
+    new PTime(25, 'Long Pause'),
+]
+new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', '#title', '#next', cycles)
