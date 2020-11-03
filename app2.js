@@ -1,9 +1,9 @@
 class PTime {
     constructor(initMinute, title) {
         this.title = title
-        this.initMinute = 0
-        this.currentMinute = 0
-        this.currentSecond = 2
+        this.initMinute = initMinute
+        this.currentMinute = initMinute
+        this.currentSecond = 0
     }
 
     reset() {
