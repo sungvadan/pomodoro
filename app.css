@@ -65,9 +65,11 @@ body {
     margin: 0 auto;
 }
 .label {
-    width: 240px;
+    width: 400px;
     display: inline-block;
     line-height: 1.5;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .input {
@@ -79,12 +81,13 @@ input {
     margin: 8px 0;
     box-sizing: border-box;
     width: 100%;
+    font-size: 20px;
 }
 
 
 .alert {
     padding: 20px;
-    background-color: #4CAF50;
+    background-color: #2196F3;
     font-weight: bold;
     color: white;
     margin-bottom: 15px;
