@@ -1,11 +1,12 @@
 body {
     color: #fff;
-    background-color: #121212;
+    background-color: #27ae60;
     opacity: 0.95;
+    font-family: 'Helvetica Neue', sans-serif;
 }
 
 .Concentrate {
-    background-color: #121212;
+    background-color: #27ae60;
 }
 
 .Pause {
@@ -23,7 +24,6 @@ body {
 
 #time {
     font-size: 13rem;
-    font-weight: bold;
     text-align: center;
 }
 
@@ -69,7 +69,6 @@ body {
     width: 240px;
     display: inline-block;
     line-height: 1.5;
-    font-weight: bold;
 }
 
 .input {
@@ -81,23 +80,6 @@ input {
     margin: 8px 0;
     box-sizing: border-box;
     width: 100%;
-}
-.divBtn {
-    margin-top: 30px;
-}
-.button {
-    background-color: #343a40;
-    border-color: #343a40;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 40px;
 }
 
 
