@@ -34,6 +34,10 @@ class PTime {
     getTitle() {
         return this.title
     }
+
+    isInit() {
+        return this.currentMinute === this.initMinute && this.currentSecond === 0
+    }
 }
 
 
@@ -92,6 +96,14 @@ class Pomodoros {
         let secondShow = (time.second < 10) ? `0${time.second}` : time.second 
         this.display.innerText = `${minuteShow}:${secondShow}`
         document.title = `${minuteShow}:${secondShow}`
+
+        if (this.isRunning) {
+            this.btnStart.innerText = 'Pause'
+        } else if (this.current.isInit()){
+            this.btnStart.innerText = 'Start'
+        } else {
+            this.btnStart.innerText = 'Continue'
+        }
     }
 
     runTimer() {
@@ -100,9 +112,11 @@ class Pomodoros {
 
         if (time.minute === 0 && time.second === 0) {
             this.save()
-            this.toogleRunning()
             this.playAlarm()
             this.changeCycle()
+            if (this.positionInCycles%2 === 0) {
+                this.toogleRunning()
+            }
         }
         this.show()
     }
@@ -113,10 +127,8 @@ class Pomodoros {
             this.timer = setInterval(() => {
                 this.runTimer()
             }, 1000)
-            this.btnStart.innerText = 'Pause'
         } else {
             clearInterval(this.timer)
-            this.btnStart.innerText = 'Continue'
         }
     }
     
@@ -148,7 +160,6 @@ class Pomodoros {
         let state = Math.floor(this.positionInCycles / 2) + 1
         this.title.innerText = `${this.current.getTitle()} (#${state})`
         document.body.className = this.current.getTitle()
-        this.btnStart.innerText = 'Start'
         this.show()
     }
 
@@ -173,14 +184,27 @@ class Pomodoros {
     }
 }
 
-let cycles = [
-    new PTime(25, 'Concentrate'),
-    new PTime(5, 'Short Pause'),
-    new PTime(25, 'Concentrate'),
-    new PTime(5, 'Short Pause'),
-    new PTime(25, 'Concentrate'),
-    new PTime(5, 'Short Pause'),
-    new PTime(25, 'Concentrate'),
-    new PTime(25, 'Long Pause'),
-]
+let setup = localStorage.getItem('setup')
+if (setup === null) {
+    setup = {
+        concentrate: 25,
+        short: 5,
+        long: 30,
+        step: 4
+    }
+} else {
+    setup = JSON.parse(setup)
+}
+
+let cycles = []
+for (let i = 1; i <= setup.step * 2; i++ ) {
+    if (i%2 != 0) {
+        cycles.push(new PTime(setup.concentrate, 'Concentrate'))
+    } else if (i == setup.step * 2) {
+        cycles.push(new PTime(setup.long, 'Long Pause'))
+    } else {
+        cycles.push(new PTime(setup.short, 'Short Pause'))
+    }
+}
+
 new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', '#title', '#next', cycles)
