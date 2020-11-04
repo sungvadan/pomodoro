@@ -22,6 +22,11 @@ function save(concentrate, short, long, step) {
         long,
         step
     }))
+    document.querySelector('.alert').style.display = 'block'
+    setTimeout(() => {
+        document.querySelector('.alert').style.display = 'none'
+        window.location = 'index.html'
+    }, 3000);
 }
 
 document.querySelector('#save').addEventListener('click', (e) => {
@@ -30,6 +35,14 @@ document.querySelector('#save').addEventListener('click', (e) => {
     let long = getValue(longElm)
     let step = getValue(stepElm)
     save(concentrate, short, long, step)
+})
+
+document.querySelector('#default').addEventListener('click', (e) => {
+    concentrateElm.value = 25
+    shortElm.value = 5
+    long.value = 30
+    step.value = 4
+    save(25, 5, 30, 4)
 })
 
 

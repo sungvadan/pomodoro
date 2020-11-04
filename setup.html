@@ -9,28 +9,50 @@
 </head>
 <body>
     <div class="form">
-        <div>
-            <label for="concentrate">Pomodoro duration (in minute)</label>
-            <input type="number" id="concentrate" value="25" min="1"/>
+        <a href="index.html" id="countdown">
+            <img src="stopwatch.svg" alt="countdown" height="30px" style="cursor: pointer;">
+        </a>
+
+        <div class="alert" style="display: none;">Your settings have been saved.</div>
+
+        <div >
+            <div class="label">
+                <label for="concentrate">Pomodoro duration (in minute)</label>
+            </div>
+            <div class="input">
+                <input type="number" id="concentrate" value="25" min="1"/>
+            </div>
         </div>
 
         <div>
-            <label for="short">Short break duration (in minute)</label>
-            <input type="number" id="short" value="5" min="1">
+            <div class="label">
+                <label for="short">Short break duration (in minute)</label>
+            </div>
+            <div class="input">
+                <input type="number" id="short" value="5" min="1">
+            </div>
         </div>
 
         <div>
-            <label for="long">Long break duration (in minute)</label>
-            <input type="number" id="long" value="30" min="1">
+            <div class="label">
+                <label for="long">Long break duration (in minute)</label>
+            </div>
+            <div class="input">
+                <input type="number" id="long" value="30" min="1">
+            </div>
         </div>
 
         <div>
-            <label for="step">Number of pomodoro</label>
-            <input type="number" id="step" value="4" min="1">
+            <div class="label">
+                <label for="step">Number of pomodoros</label>
+            </div>
+            <div class="input">
+                <input type="number" id="step" value="4" min="1">
+            </div>
         </div>
-        <div>
-            <button id="save">Save</button>
-            <button id="default">Default</button>
+        <div class="divBtn">
+            <button class="button" id="save">Save</button>
+            <button class="button" id="default">Default</button>
         </div>
     </div>
     <script type="application/javascript" src="setup.js"></script>

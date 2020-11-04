@@ -77,12 +77,8 @@ class Pomodoros {
         })
         
         document.addEventListener('keydown', e => {
-            if (e.code === 'Enter' || e.code === 'Space') {
+            if (e.code === 'Space') {
                 this.toogleRunning()
-                e.preventDefault()
-                e.stopPropagation()
-            } else if (e.code === 'Escape') {
-                this.reset()
                 e.preventDefault()
                 e.stopPropagation()
             }
@@ -96,7 +92,6 @@ class Pomodoros {
         let secondShow = (time.second < 10) ? `0${time.second}` : time.second 
         this.display.innerText = `${minuteShow}:${secondShow}`
         document.title = `${minuteShow}:${secondShow}`
-
         if (this.isRunning) {
             this.btnStart.innerText = 'Pause'
         } else if (this.current.isInit()){
@@ -130,6 +125,7 @@ class Pomodoros {
         } else {
             clearInterval(this.timer)
         }
+        this.show()
     }
     
     toogleSound() {

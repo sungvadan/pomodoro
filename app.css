@@ -1,6 +1,7 @@
 body {
     color: #fff;
-    background-color: #27ae60;
+    background-color: #c0392b;
+    opacity: 0.95;
 }
 
 .Concentrate {
@@ -21,7 +22,7 @@ body {
 }
 
 #time {
-    font-size: 15rem;
+    font-size: 13rem;
     font-weight: bold;
     text-align: center;
 }
@@ -34,7 +35,7 @@ body {
     text-align: center;
     border: 1px solid transparent;
     padding: .375rem .75rem;
-    font-size: 3rem;
+    font-size: 2.5rem;
     line-height: 1.5;
     border-radius: .25rem;
     color: #343a40;
@@ -54,15 +55,61 @@ body {
     left: 20px;
 }
 
-#setup {
+#setup, #countdown {
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: 30px;
 }
 
 .form {
     text-align: center;
     margin: 0 auto;
+}
+.label {
+    width: 240px;
+    display: inline-block;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+.input {
+    display: inline-block;
+    width: 250px;
+}
+input {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+.divBtn {
+    margin-top: 30px;
+}
+.button {
+    background-color: #343a40;
+    border-color: #343a40;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 40px;
+}
+
+
+.alert {
+    padding: 20px;
+    background-color: #4CAF50;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+    max-width: 450px;
+    text-align: center;
+    margin: auto;
 }
 
 @media screen and (max-width: 600px) {
