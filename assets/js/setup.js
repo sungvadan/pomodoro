@@ -26,7 +26,7 @@ function save(concentrate, short, long, step) {
     setTimeout(() => {
         document.querySelector('.alert').style.display = 'none'
         window.location = 'index.html'
-    }, 2000);
+    }, 1500);
 }
 
 document.querySelector('#save').addEventListener('click', (e) => {
@@ -46,19 +46,52 @@ document.querySelector('#default').addEventListener('click', (e) => {
 })
 
 
-let setup = localStorage.getItem('setup')
-if (setup === null) {
-    setup = {
+let setting = localStorage.getItem('setup')
+if (setting === null) {
+    setting = {
         concentrate: 25,
         short: 5,
         long: 30,
         step: 4
     }
 } else {
-    setup = JSON.parse(setup)
+    setting = JSON.parse(setting)
 }
 
-concentrateElm.value = setup.concentrate
-shortElm.value = setup.short
-longElm.value = setup.long
-stepElm.value = setup.step
+concentrateElm.value = setting.concentrate
+shortElm.value = setting.short
+longElm.value = setting.long
+stepElm.value = setting.step
+
+let modal = null
+
+const openModal = (e) => {
+    const target = document.querySelector('#modalSetup')
+    target.style.display = null
+    modal = target
+    modal.addEventListener('click', closeModal)
+    modal.querySelector('.js-close-modal').addEventListener('click', closeModal)
+    modal.querySelector('.js-stop-propagation').addEventListener('click', stopPropagation)
+}
+
+const stopPropagation = (e) => {
+    e.stopPropagation()
+} 
+
+const closeModal = (e) => {
+    if (modal === null) return
+    e.preventDefault()
+    modal.style.display = "none"
+    modal.removeEventListener('click', closeModal)
+    modal.querySelector('.js-stop-propagation').removeEventListener('click', stopPropagation)
+
+    modal = null
+}
+
+document.querySelector('#setup').addEventListener('click', openModal)
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+        closeModal(e)
+    }
+})

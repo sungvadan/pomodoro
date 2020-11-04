@@ -1,8 +1,12 @@
-body {
+body, html{
     color: #fff;
     background-color: #27ae60;
     font-family: 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
 }
+
+* { box-sizing: border-box;}
 
 .Concentrate {
     background-color: #27ae60;
@@ -44,6 +48,10 @@ body {
     cursor: pointer;
 }
 
+.btn-md {
+    font-size: 1.5rem;
+}
+
 #div-btn {
     text-align: center;
 }
@@ -65,23 +73,23 @@ body {
     margin: 0 auto;
 }
 .label {
-    width: 400px;
+    width: 300px;
     display: inline-block;
     line-height: 1.5;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
 }
 
 .input {
     display: inline-block;
-    width: 250px;
+    width: 150px;
 }
 input {
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
     width: 100%;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 
@@ -105,4 +113,37 @@ input {
         margin-top: 30px;
         font-size: 11rem;
     }
+}
+
+/* modal */
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-wrapper {
+    position: relative;
+    background-color: #27ae60;
+    width: 600px;
+    max-width: 100vw;
+    max-height: 100vh;
+    padding: 20px;
+    overflow: auto;
+}
+
+.js-close-modal {
+    position: absolute;
+    right: 3px;
+    top: 0px;
+    cursor: pointer;
+    font-weight: bold;
 }
