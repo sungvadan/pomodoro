@@ -43,7 +43,7 @@ class PTime {
 
 
 class Pomodoros {
-    constructor(selectorDisplay, selectorStart, selectorReset, selectorAlarm, selectorVolume, selectorTitle, selectorNext, cycles) {
+    constructor(selectorDisplay, selectorStart, selectorReset, selectorAlarm, selectorVolume, selectorTitle, selectorNext, cycles, soundOn) {
         this.title = document.querySelector(selectorTitle)
         this.display = document.querySelector(selectorDisplay)
         this.btnStart = document.querySelector(selectorStart)
@@ -54,7 +54,7 @@ class Pomodoros {
         this.isRunning = false
         this.timer = null
         this.current = null
-        this.soundOn = true
+        this.soundOn = soundOn
         this.cycles = cycles
         this.positionInCycles = -1
 
@@ -84,6 +84,7 @@ class Pomodoros {
             }
         })
         this.show()
+        this.showSound()
     }
 
     show() {
@@ -130,9 +131,15 @@ class Pomodoros {
     
     toogleSound() {
         this.soundOn = !this.soundOn
+        this.showSound()
+        localStorage.setItem('soundOn', this.soundOn)
+    }
+
+    showSound() {
         if (this.soundOn) {
             this.btnVolume.setAttribute('src', 'volume-up.svg')
         } else {
+            
             this.btnVolume.setAttribute('src', 'volume-mute.svg')
         }
     }
@@ -203,4 +210,11 @@ for (let i = 1; i <= setup.step * 2; i++ ) {
     }
 }
 
-new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', '#title', '#next', cycles)
+let soundOn = localStorage.getItem('soundOn') 
+if (soundOn === null) {
+    soundOn = true
+} else {
+    soundOn = soundOn == 'true' ? true : false
+    
+}
+new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', '#title', '#next', cycles, soundOn)

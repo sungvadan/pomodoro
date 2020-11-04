@@ -26,7 +26,7 @@ function save(concentrate, short, long, step) {
     setTimeout(() => {
         document.querySelector('.alert').style.display = 'none'
         window.location = 'index.html'
-    }, 3000);
+    }, 2000);
 }
 
 document.querySelector('#save').addEventListener('click', (e) => {
