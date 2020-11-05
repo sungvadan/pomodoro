@@ -32,6 +32,17 @@ class PTime {
         }
     }
 
+    setTime(minute, second) {
+        console.log({minute, second})
+        if (minute < 0) {
+            this.currentMinute = 0
+            this.currentSecond = 0
+        } else {
+            this.currentMinute = minute
+            this.currentSecond = second
+        }
+    }
+
     getTitle() {
         return this.title
     }
@@ -39,12 +50,14 @@ class PTime {
     isInit() {
         return this.currentMinute === this.initMinute && this.currentSecond === 0
     }
+
+    getSecondsRemaining() {
+        return this.currentMinute * 60 + this.currentSecond
+    }
 }
 
-
-
 class Pomodoros {
-    constructor(selectorDisplay, selectorStart, selectorReset, selectorAlarm, selectorVolume, selectorTitle, selectorNext, cycles, soundOn) {
+    constructor(selectorDisplay, selectorStart, selectorReset, selectorAlarm, selectorVolume, selectorTitle, selectorNext, selectorAutoPlayBreak, cycles, soundOn, autoPlayBreak) {
         this.title = document.querySelector(selectorTitle)
         this.display = document.querySelector(selectorDisplay)
         this.btnStart = document.querySelector(selectorStart)
@@ -52,12 +65,15 @@ class Pomodoros {
         this.btnVolume = document.querySelector(selectorVolume)
         this.alarm = document.querySelector(selectorAlarm)
         this.next = document.querySelector(selectorNext)
+        this.btnAutoPlayBreak = document.querySelector(selectorAutoPlayBreak)
         this.isRunning = false
         this.timer = null
         this.current = null
         this.soundOn = soundOn
+        this.autoPlayBreak = autoPlayBreak
         this.cycles = cycles
         this.positionInCycles = -1
+        this.lastTime = null
 
         this.changeCycle()
 
@@ -76,6 +92,10 @@ class Pomodoros {
         this.btnVolume.addEventListener('click', e => {
             this.toogleSound()
         })
+
+        this.btnAutoPlayBreak.addEventListener('change', e => {
+            this.toogleAutoPlayBreak()
+        })
         
         document.addEventListener('keydown', e => {
             if (e.code === 'Space') {
@@ -86,6 +106,7 @@ class Pomodoros {
         })
         this.show()
         this.showSound()
+        this.showAutoPlayBreak()
     }
 
     show() {
@@ -111,10 +132,26 @@ class Pomodoros {
             this.save()
             this.playAlarm()
             this.changeCycle()
-            if (this.positionInCycles%2 === 0) {
+            if (this.positionInCycles % 2 === 0 || !this.autoPlayBreak) {
                 this.toogleRunning()
             }
         }
+
+        // to handle problème when computer is slepping
+        if (this.lastTime === null) {
+            this.lastTime = (new Date()).getTime()
+        } else {
+            let currentTime = (new Date()).getTime()
+            if (currentTime > this.lastTime + 2000) {
+                let delta = Math.floor((currentTime - this.lastTime) / 1000) // number of seconds from computeur sleep
+                let secondsRemaining = this.current.getSecondsRemaining() - delta
+                let minuteTmp = Math.floor(secondsRemaining / 60)
+                let secondTmp = secondsRemaining % 60
+                this.current.setTime(minuteTmp, secondTmp)
+            }
+            this.lastTime = currentTime
+        }
+
         this.show()
     }
 
@@ -126,6 +163,7 @@ class Pomodoros {
             }, 1000)
         } else {
             clearInterval(this.timer)
+            this.lastTime = null
         }
         this.show()
     }
@@ -142,6 +180,20 @@ class Pomodoros {
             this.btnVolume.setAttribute('src', 'public/images/volume-up.svg')
         } else {
             this.btnVolume.setAttribute('src', 'public/images/volume-mute.svg')
+        }
+    }
+
+    toogleAutoPlayBreak() {
+        this.autoPlayBreak = !this.autoPlayBreak
+        this.showAutoPlayBreak()
+        localStorage.setItem('autoPlayBreak', this.autoPlayBreak)
+    }
+
+    showAutoPlayBreak() {
+        if (this.autoPlayBreak) {
+            this.btnAutoPlayBreak.checked = true
+        } else {
+            this.btnAutoPlayBreak.checked = false
         }
     }
 
@@ -216,6 +268,13 @@ if (soundOn === null) {
     soundOn = true
 } else {
     soundOn = soundOn == 'true' ? true : false
-    
 }
-new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', '#title', '#next', cycles, soundOn)
+
+let autoPlayBreak = localStorage.getItem('autoPlayBreak')
+if (autoPlayBreak === null) {
+    autoPlayBreak = true
+} else {
+    autoPlayBreak = autoPlayBreak == 'true' ? true : false
+}
+
+new Pomodoros('#time', '#start', '#reset', '#alarm', '#volume', '#title', '#next', '#autoPlayBreak', cycles, soundOn, autoPlayBreak)
