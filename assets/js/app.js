@@ -1,3 +1,4 @@
+require("../css/app.css")
 class PTime {
     constructor(initMinute, title) {
         this.title = title
@@ -138,9 +139,9 @@ class Pomodoros {
 
     showSound() {
         if (this.soundOn) {
-            this.btnVolume.setAttribute('src', 'assets/images/volume-up.svg')
+            this.btnVolume.setAttribute('src', 'public/images/volume-up.svg')
         } else {
-            this.btnVolume.setAttribute('src', 'assets/images/volume-mute.svg')
+            this.btnVolume.setAttribute('src', 'public/images/volume-mute.svg')
         }
     }
 
