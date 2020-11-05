@@ -12,8 +12,11 @@ body, html{
     text-align: center;
 }
 
-#next {
+#div-next {
     text-align: center;
+}
+
+#next {
     cursor: pointer;
 }
 
@@ -103,6 +106,7 @@ input {
     .btn {
         display: block;
         width: 100%;
+        margin-top: 10px;
     }
     #time {
         margin-top: 30px;
