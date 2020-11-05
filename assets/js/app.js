@@ -133,13 +133,13 @@ class Pomodoros {
         this.soundOn = !this.soundOn
         this.showSound()
         localStorage.setItem('soundOn', this.soundOn)
+        this.playAlarm()
     }
 
     showSound() {
         if (this.soundOn) {
             this.btnVolume.setAttribute('src', 'assets/images/volume-up.svg')
         } else {
-            
             this.btnVolume.setAttribute('src', 'assets/images/volume-mute.svg')
         }
     }
