@@ -5,7 +5,7 @@ let config = {
     entry: ['./assets/js/app.js', './assets/js/setup.js'],
     output: {
         path: path.resolve(__dirname, "./public"),
-        filename: "./bundle.js"
+        filename: "./bundle-2.js"
     },
     module: {
         rules: [

@@ -135,21 +135,21 @@ class Pomodoros {
             if (this.positionInCycles % 2 === 0 || !this.autoPlayBreak) {
                 this.toogleRunning()
             }
-        }
-
-        // to handle problème when computer is slepping
-        if (this.lastTime === null) {
-            this.lastTime = (new Date()).getTime()
         } else {
-            let currentTime = (new Date()).getTime()
-            if (currentTime > this.lastTime + 2000) {
-                let delta = Math.floor((currentTime - this.lastTime) / 1000) // number of seconds from computeur sleep
-                let secondsRemaining = this.current.getSecondsRemaining() - delta
-                let minuteTmp = Math.floor(secondsRemaining / 60)
-                let secondTmp = secondsRemaining % 60
-                this.current.setTime(minuteTmp, secondTmp)
+            // to handle problème when computer is slepping
+            if (this.lastTime === null) {
+                this.lastTime = (new Date()).getTime()
+            } else {
+                let currentTime = (new Date()).getTime()
+                if (currentTime > this.lastTime + 2000) {
+                    let delta = Math.floor((currentTime - this.lastTime) / 1000) // number of seconds from computeur sleep
+                    let secondsRemaining = this.current.getSecondsRemaining() - delta
+                    let minuteTmp = Math.floor(secondsRemaining / 60)
+                    let secondTmp = secondsRemaining % 60
+                    this.current.setTime(minuteTmp, secondTmp)
+                }
+                this.lastTime = currentTime
             }
-            this.lastTime = currentTime
         }
 
         this.show()
