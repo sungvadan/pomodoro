@@ -114,7 +114,7 @@ class Pomodoros {
         let minuteShow = (time.minute < 10) ? `0${time.minute}` : time.minute 
         let secondShow = (time.second < 10) ? `0${time.second}` : time.second 
         this.display.innerText = `${minuteShow}:${secondShow}`
-        document.title = `${minuteShow}:${secondShow}`
+        // document.title = `${minuteShow}:${secondShow}`
         if (this.isRunning) {
             this.btnStart.innerText = 'Pause'
         } else if (this.current.isInit()){
@@ -141,7 +141,7 @@ class Pomodoros {
                 this.lastTime = (new Date()).getTime()
             } else {
                 let currentTime = (new Date()).getTime()
-                if (currentTime > this.lastTime + 2000) {
+                if (currentTime > this.lastTime + 1500) {
                     let delta = Math.floor((currentTime - this.lastTime) / 1000) // number of seconds from computeur sleep
                     let secondsRemaining = this.current.getSecondsRemaining() - delta
                     let minuteTmp = Math.floor(secondsRemaining / 60)
@@ -223,6 +223,7 @@ class Pomodoros {
         this.isRunning = false
         clearInterval(this.timer)
         this.current.reset()
+        this.lastTime = null
         this.show()
     }
 
