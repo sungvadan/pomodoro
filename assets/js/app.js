@@ -101,7 +101,7 @@ class Pomodoros {
         let minuteShow = (time.minute < 10) ? `0${time.minute}` : time.minute 
         let secondShow = (time.second < 10) ? `0${time.second}` : time.second 
         this.display.innerText = `${minuteShow}:${secondShow}`
-        document.title = `Pomodoro ${minuteShow}:${secondShow}`
+        document.title = `${minuteShow}:${secondShow} Pomodoro`
         if (this.isRunning) {
             this.btnStart.innerText = 'Pause'
         } else if (this.current.isInit()){
